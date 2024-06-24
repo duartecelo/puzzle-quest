@@ -54,7 +54,7 @@ public class Menu {
                 break;
             case 4:
                     limparConsole();
-                    salvarNoBancoDeDados();
+                    main.data.Salvamento.salvarNoBancoDeDados();
                     System.out.println("=======================\nEncerrando Puzzle Quest\n=======================\n\n");
                     System.exit(0);
                     break;
@@ -62,10 +62,6 @@ public class Menu {
                 erro = "| Você escolheu uma opção inválida, digite\n| o número de alguma opção válida (1 - 4)\n";
                 mostrarMenu();
         }
-    }
-
-    public static void salvarNoBancoDeDados() {
-        
     }
     
     public final static void limparConsole() {

@@ -5,12 +5,13 @@ import java.util.Scanner;
 
 public class MenuPartida {
     static String erro = "";
+
     public static void iniciarNovaPartida() {
         mostrarMenuNovaPartida();
     }
-    
+
     public static void continuarPartida() {
-        
+
     }
 
     public static void mostrarMenuNovaPartida() {
@@ -18,16 +19,15 @@ public class MenuPartida {
             limparConsole();
             Scanner scanner = new Scanner(System.in);
             System.out.print("\n" +
-                "+------------------------------+ \n" +
-                "| Nova partida                 | \n" +
-                "+------------------------------+ \n" +
-                "|                              | \n" +
-                "| [1] Player Vs Player (PvP)   | \n" +
-                "|                              | \n" +
-                "| [2] Voltar ao menu principal | \n" +
-                "|                              | \n" +
-                "+------------------------------+ \n"
-            );
+                    "+------------------------------+ \n" +
+                    "| Nova partida                 | \n" +
+                    "+------------------------------+ \n" +
+                    "|                              | \n" +
+                    "| [1] Player Vs Player (PvP)   | \n" +
+                    "|                              | \n" +
+                    "| [2] Voltar ao menu principal | \n" +
+                    "|                              | \n" +
+                    "+------------------------------+ \n");
             System.out.print(erro);
             System.out.print("+--- Digite uma opção: ");
             int opcao = scanner.nextInt();

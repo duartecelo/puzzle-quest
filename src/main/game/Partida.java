@@ -6,17 +6,17 @@ import java.util.ArrayList;
 
 @SuppressWarnings("resource")
 public class Partida {
-    static List<Partida> listaDePartidas = new ArrayList<>();
+    public static List<Partida> listaDePartidas = new ArrayList<>();
 
-    Tabuleiro tabuleiro;
-    Jogador jogador;
-    Jogador jogador1;
-    Jogador jogador2;
-    Jogador jogadorAtual;
-    String escolha;
-    String erro = "";
-    int rodadas = 1;
-    boolean combo = false;
+    public Tabuleiro tabuleiro;
+    public Jogador jogador;
+    public Jogador jogador1;
+    public Jogador jogador2;
+    public Jogador jogadorAtual;
+    public String escolha;
+    public String erro = "";
+    public int rodadas = 1;
+    public boolean combo = false;
 
     public Partida() {
         listaDePartidas.add(this);
@@ -38,8 +38,8 @@ public class Partida {
         System.out.print("Nome do segundo jogador: ");
         String nomeDoJogador2 = scanner.nextLine();
         if (nomeDoJogador2.toUpperCase().equals(nomeDoJogador1.toUpperCase())) {
-            nomeDoJogador2 += " (2)"; 
-            nomeDoJogador1 += " (1)";
+            nomeDoJogador2 += "(2)"; 
+            nomeDoJogador1 += "(1)";
         }
         jogador1 = new Jogador(nomeDoJogador1);
         jogador2 = new Jogador(nomeDoJogador2);
@@ -60,6 +60,7 @@ public class Partida {
                 while (tabuleiro.isTabuleiroPossivel() == false) {
                     tabuleiro.contarEApagarTudo();
                     realizarEfeitos();
+                    jogadorAtual.multiplicadorDeDano = 1;
                     tabuleiro.descerEsferas();
                     tabuleiro.gerarNovasEsferas();
                 }
@@ -261,5 +262,39 @@ public class Partida {
         if (tabuleiro.ourosApagados >= 1) return true;
         if (tabuleiro.raiosApagados >= 1) return true;
         return false;
+    }
+
+    public String tabuleiroOrdenado() {
+        String conjunto = "";
+        for (int i = 0; i < tabuleiro.posicaoEmTipos.length; i++) {
+            for (int j = 0; j < tabuleiro.posicaoEmTipos.length; j++) {
+                switch (tabuleiro.posicaoEmTipos[i][j]) {
+                    case Caveira:
+                        conjunto += "C";
+                        break;
+                    case Fogo:
+                        conjunto += "F";
+                        break;
+                    case Gelo:
+                        conjunto += "G";
+                        break;
+                    case Raio:
+                        conjunto += "R";
+                        break;
+                    case Natureza:
+                        conjunto += "N";
+                        break;
+                    case Ouro:
+                        conjunto += "O";
+                        break;
+                    case Experiencia:
+                        conjunto += "E";
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+        return conjunto;
     }
 }

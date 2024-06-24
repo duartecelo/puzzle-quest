@@ -13,7 +13,7 @@ public class Tabuleiro {
     int ourosApagados = 0;
     int experienciasApagadas = 0;
     final String ANSI_RESET = "\u001B[0m";
-    
+
     public void gerarTabuleiroAleatorio() {
         for (int i = 0; i < posicaoEmTipos.length; i++) {
             for (int j = 0; j < posicaoEmTipos.length; j++) {
@@ -30,7 +30,7 @@ public class Tabuleiro {
             }
         }
     }
-    
+
     public Tipo gerarEsferaAleatoria() {
         Random random = new Random();
         int aleatorio = random.nextInt(1, 8);
