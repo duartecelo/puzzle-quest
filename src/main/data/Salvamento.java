@@ -23,7 +23,7 @@ public class Salvamento {
 
     public static void executarArquivoSql(Connection conn, String arquivoSql) throws IOException, SQLException {
         try (BufferedReader br = new BufferedReader(new FileReader(arquivoSql));
-             Statement stmt = conn.createStatement()) {
+            Statement stmt = conn.createStatement()) {
 
             String line;
             StringBuilder sql = new StringBuilder();
@@ -78,10 +78,24 @@ public class Salvamento {
             try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD)) {
                 adicionarPartidasNaListaDeComandos();
                 executarArquivoSql(conn, arquivoSql);
+                resetarArquivoSql();
                 System.out.println("Comandos SQL executados com sucesso.");
             } catch (SQLException | IOException e) {
                 e.printStackTrace();
             }
         }
     }
+
+    public static void resetarArquivoSql() {
+        try {
+            FileWriter deletaConteudo = new FileWriter(arquivoSql, false);
+            deletaConteudo.close();
+            FileWriter criaInicioConteudo = new FileWriter(arquivoSql, true);
+            BufferedWriter bw = new BufferedWriter(criaInicioConteudo);
+            bw.write("USE puzzle_quest;\n\n");
+            bw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    } 
 }

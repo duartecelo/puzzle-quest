@@ -2,7 +2,7 @@ package main.game;
 import java.util.Random;
 
 public class Tabuleiro {
-    Tipo[][] posicaoEmTipos = new Tipo[8][8];
+    public Tipo[][] posicaoEmTipos = new Tipo[8][8];
     String[][] posicaoEmString = new String[8][8];
     int[] posicaoSelecionada = {0, 0};
     int caveirasApagadas = 0;

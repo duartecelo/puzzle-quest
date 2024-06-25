@@ -47,7 +47,7 @@ public class Menu {
                 MenuPartida.iniciarNovaPartida();
                 break;
             case 2:
-                MenuPartida.continuarPartida();
+                main.data.Carregamento.continuarPartida();
                 break;
             case 3:
                 Configuracoes.abrirConfiguracoes();

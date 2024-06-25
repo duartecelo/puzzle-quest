@@ -9,11 +9,7 @@ public class MenuPartida {
     public static void iniciarNovaPartida() {
         mostrarMenuNovaPartida();
     }
-
-    public static void continuarPartida() {
-
-    }
-
+    
     public static void mostrarMenuNovaPartida() {
         try {
             limparConsole();
