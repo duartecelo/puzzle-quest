@@ -17,6 +17,7 @@ public class Partida {
     public String erro = "";
     public int rodadas = 1;
     public boolean combo = false;
+    public boolean precisaSalvar = true;
 
     public Partida() {
         listaDePartidas.add(this);
@@ -73,6 +74,9 @@ public class Partida {
             
         }
         imprimirRodada();
+        excluirSalvamentoPassado();
+        main.data.Salvamento.salvarNoBancoDeDados();
+        listaDePartidas.clear();
         finalDeJogo();
     }
 
@@ -86,7 +90,7 @@ public class Partida {
     public void solicitarEscolhaDaJogada(Scanner scanner) {
         System.out.println("* Digite `W`, `A`, `S` ou `D` + Enter para\n  se movimentar dentro do tabuleiro.");
         System.out.println("* Clique Enter para confirmar a posição.");
-        System.out.println("* Digite SAIR para voltar ao menu principal.");
+        System.out.println("* Digite SAIR para salvar e voltar ao menu\n  principal.");
         System.out.print(erro);
         erro = "";
         escolha = scanner.nextLine().toUpperCase();
@@ -107,10 +111,13 @@ public class Partida {
                 escolherDirecao();
                 break;
             case "SAIR":
+                excluirSalvamentoPassado();
+                main.data.Salvamento.salvarNoBancoDeDados();
+                listaDePartidas.clear();
                 Menu.mostrarMenu();
                 break;
             default:
-                erro = "[ \"" + escolha + "\"" + " NÃO É UMA OPÇÃO VÁLIDA ]\n";
+                erro = "\u001B[31m" + "[ \"" + escolha + "\"" + " NÃO É UMA OPÇÃO VÁLIDA ]\n" + "\u001B[0m";
                 break;
         }
     }
@@ -152,7 +159,7 @@ public class Partida {
                 escolherDirecao();
                 break;
             default:
-                erro = "[ \"" + escolha + "\"" + " NÃO É UMA OPÇÃO VÁLIDA ]\n";
+                erro = "\u001B[31m" + "[ \"" + escolha + "\"" + " NÃO É UMA OPÇÃO VÁLIDA ]\n" + "\u001B[0m";
                 break;
         }
     }
@@ -296,5 +303,9 @@ public class Partida {
             }
         }
         return conjunto;
+    }
+
+    public void excluirSalvamentoPassado() {
+        main.data.Carregamento.deletarAntigoSalvamento();
     }
 }

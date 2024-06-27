@@ -37,13 +37,13 @@ public class MenuPartida {
                     Menu.mostrarMenu();
                     break;
                 default:
-                    erro = "| Você escolheu uma opção inválida, digite\n| o número de alguma opção válida (1 - 2)\n";
+                    erro = "\u001B[31m" + "| Você escolheu uma opção inválida, digite\n| o número de alguma opção válida (1 - 2)\n" + "\u001B[0m";
                     mostrarMenuNovaPartida();
                     break;
             }
             scanner.close();
         } catch (InputMismatchException e) {
-            erro = "| Você não digitou um número \n| inteiro, tente novamente.\n";
+            erro = "\u001B[31m" + "| Você não digitou um número \n| inteiro, tente novamente.\n" + "\u001B[0m";
             mostrarMenuNovaPartida();
         }
     }

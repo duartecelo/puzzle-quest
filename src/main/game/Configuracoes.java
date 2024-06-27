@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 public final class Configuracoes {
     public static char[] destaque = {'(', ')'};
-    public static int vidaMaximaPadrao = 50;
+    public static int vidaMaximaPadrao = 35;
 
     static String erro = "";
 
@@ -43,14 +43,14 @@ public final class Configuracoes {
                     Menu.mostrarMenu();
                     break;
                 default:
-                    erro = "| Você escolheu uma opção inválida, digite\n| o número de alguma opção válida (1 - 3)\n";
+                    erro = "\u001B[31m" + "| Você escolheu uma opção inválida, digite\n| o número de alguma opção válida (1 - 3)\n" + "\u001B[0m";
                     abrirConfiguracoes();
                     break;
             }
             scanner.close();
             
         } catch (InputMismatchException e) {
-            erro = "| Você não digitou um número \n| inteiro, tente novamente.\n";
+            erro = "\u001B[31m" + "| Você não digitou um número \n| inteiro, tente novamente.\n" + "\u001B[0m";
             abrirConfiguracoes();
         }
     }
@@ -88,13 +88,13 @@ public final class Configuracoes {
         try {
             int vida = scanner.nextInt();
             if (vida <= 0) {
-                erro = "| Você precisa digitar um número\n| inteiro válido (1 - 2147483647).\n";
+                erro = "\u001B[31m" + "| Você precisa digitar um número\n| inteiro válido (1 - 2147483647).\n" + "\u001B[0m";
                 alternarVidaMaxima();
             } else {
                 Configuracoes.vidaMaximaPadrao = vida;
             }
         } catch (InputMismatchException e) {
-            erro = "| Você precisa digitar um número inteiro.\n";
+            erro = "\u001B[31m" + "| Você precisa digitar um número inteiro.\n" + "\u001B[0m";
             alternarVidaMaxima();
         }
         abrirConfiguracoes();

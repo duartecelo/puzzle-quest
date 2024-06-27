@@ -15,6 +15,8 @@ import main.game.Tipo;
 import main.game.Jogador;
 
 public class Carregamento {
+    static String erro = "";
+
     static Scanner scanner = new Scanner(System.in);
     
     private static final String URL = "jdbc:mysql://localhost:3306/puzzle_quest";
@@ -24,42 +26,63 @@ public class Carregamento {
     static Connection conn = null;
     static Statement stmt = null;
     static ResultSet rs = null;
-
+    
     static List<String> listaDeNomesDasPartidas = new ArrayList<>();
+
+    static String idPartida;
     
     public static void continuarPartida() {
+        Connection conn = null;
+        Statement stmt = null;
+        ResultSet rs = null;
         try {
             conn = DriverManager.getConnection(URL, USER, PASSWORD);
-        
             stmt = conn.createStatement();
         
             String sqlPt1 = "SELECT * FROM partidas_salvas;";
             rs = stmt.executeQuery(sqlPt1);
-        
+            
+            listaDeNomesDasPartidas.clear();
             while (rs.next()) {
                 listaDeNomesDasPartidas.add(rs.getString("nome") + "[" + rs.getString("id") + "]");
             }
             limparConsole();
-            System.out.println("+----------------------------------------------");
-            System.out.println("| Digite o número (o que está entre colchetes)\n            da partida que você quer carregar:");
+            System.out.println("+--------------------------------------------------+");
+            System.out.println("| Digite o nome da partida que você quer carregar. |");
+            System.out.println("| Digite SAIR para voltar ao menu principal        |");
             System.out.println("|");
             for (String nomeDaPartida : listaDeNomesDasPartidas) {
                 System.out.printf("+- %s\n|\n", nomeDaPartida);
             }
+            System.out.print(erro);
+            erro = "";
             System.out.print("+- - - - | ");
+            
             String opcao = "";
             do {
                 opcao = scanner.nextLine();
-                if (listaDeNomesDasPartidas.contains(opcao)) {
-                    String sqlPt2 = String.format("SELECT * FROM partidas_salvas WHERE id = '%c'", opcao.charAt(opcao.length() - 2));
-
-                    rs = stmt.executeQuery(sqlPt2);
-
-                    if (rs.next()) {
-                        carregarPartida(rs);
+                boolean partidaEncontrada = false;
+                for (String nomeDaPartida : listaDeNomesDasPartidas) {
+                    if (nomeDaPartida.startsWith(opcao)) {
+                        idPartida = nomeDaPartida.substring(nomeDaPartida.lastIndexOf('[') + 1, nomeDaPartida.lastIndexOf(']'));
+                        String sqlPt2 = String.format("SELECT * FROM partidas_salvas WHERE id = '%s'", idPartida);
+                        rs = stmt.executeQuery(sqlPt2);
+                        if (rs.next()) {
+                            carregarPartida(rs);
+                        }
+                        partidaEncontrada = true;
+                        break;
                     }
                 }
-            } while (!listaDeNomesDasPartidas.contains(opcao));
+                if (!partidaEncontrada) {
+                    if (opcao.equalsIgnoreCase("SAIR")) {
+                        main.game.Menu.mostrarMenu();
+                    } else {
+                        erro = "\u001B[31m" + "| [Opção inválida, tente novamente]\n" + "\u001B[0m";
+                        continuarPartida();
+                    }
+                }
+            } while (!opcao.equalsIgnoreCase("SAIR"));
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -107,20 +130,19 @@ public class Carregamento {
                     partida.jogadorAtual.multiplicadorDeDano = 1;
                     partida.tabuleiro.descerEsferas();
                     partida.tabuleiro.gerarNovasEsferas();
-                    while (partida.tabuleiro.isTabuleiroPossivel() == false) {
+                    while (!partida.tabuleiro.isTabuleiroPossivel()) {
                         partida.tabuleiro.contarEApagarTudo();
                         partida.realizarEfeitos();
                         partida.jogadorAtual.multiplicadorDeDano = 1;
                         partida.tabuleiro.descerEsferas();
                         partida.tabuleiro.gerarNovasEsferas();
                     }
-                    if (partida.combo == false) {
+                    if (!partida.combo) {
                         partida.jogadorAtual = partida.jogadorAtual == partida.jogador1 ? partida.jogador2 : partida.jogador1;
                     } else {
                         partida.combo = false;
                     }
                 }
-                
             }
             partida.imprimirRodada();
             partida.finalDeJogo();
@@ -163,8 +185,9 @@ public class Carregamento {
             if (contadorX == 7) {
                 contadorX = 0;
                 contadorY++;
+            } else {
+                contadorX++;
             }
-            else contadorX++;
         }
         return tabuleiroEmTipos;
     }
@@ -172,5 +195,15 @@ public class Carregamento {
     public final static void limparConsole() {
         System.out.print("\033[H\033[2J");
         System.out.flush();
+    }
+
+    public static void deletarAntigoSalvamento() {
+        try {
+            conn = DriverManager.getConnection(URL, USER, PASSWORD);
+            stmt = conn.createStatement();
+            stmt.execute("DELETE FROM partidas_salvas WHERE id = " + idPartida + ";");
+        } catch (SQLException e) {
+            System.out.println("ERRO ERRO ERRO");
+        }
     }
 }

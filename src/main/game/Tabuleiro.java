@@ -21,8 +21,8 @@ public class Tabuleiro {
             }
         }
         while (isTabuleiroPossivel() == false) {
-            for (int i = 0; i < posicaoEmString.length; i++) {
-                for (int j = 0; j < posicaoEmString.length; j++) {
+            for (int i = 0; i < posicaoEmTipos.length; i++) {
+                for (int j = 0; j < posicaoEmTipos.length; j++) {
                     while (isFormada(i, j)) {
                         posicaoEmTipos[i][j] = gerarEsferaAleatoria();
                     }
@@ -80,6 +80,7 @@ public class Tabuleiro {
     }
 
     public void mostrarTabuleiro() {
+        reiniciarSeNecessario();
         for (int i = 0; i < posicaoEmString.length; i++) {
             System.out.print("      ");
             for (int j = 0; j < posicaoEmString.length; j++) {
@@ -478,11 +479,110 @@ public class Tabuleiro {
         }
     }
 
-    public boolean precisaReiniciar() {
+    public void reiniciarSeNecessario() {
+        Tipo controle;
+        boolean necessario = true;
+        for (int i = 0; i < posicaoEmTipos.length; i++) {
+            for (int j = 0; j < posicaoEmTipos.length; j++) {
+                if (i > 0 && i < posicaoEmTipos.length - 1 && j > 0 && j < posicaoEmTipos.length - 1) {
 
+                    // Testando a troca pra baixo
+                    controle = posicaoEmTipos[i][j];
+                    posicaoEmTipos[i][j] = posicaoEmTipos[i + 1][j];
+                    posicaoEmTipos[i + 1][j] = controle;
+                    if (isTabuleiroPossivel() == false) {
+                        necessario = false;
+                    }
+                    controle = posicaoEmTipos[i][j];
+                    posicaoEmTipos[i][j] = posicaoEmTipos[i + 1][j];
+                    posicaoEmTipos[i + 1][j] = controle;
 
+                    // Testando a troca pra cima
+                    controle = posicaoEmTipos[i][j];
+                    posicaoEmTipos[i][j] = posicaoEmTipos[i - 1][j];
+                    posicaoEmTipos[i - 1][j] = controle;
+                    if (isTabuleiroPossivel() == false) {
+                        necessario = false;
+                    }
+                    controle = posicaoEmTipos[i][j];
+                    posicaoEmTipos[i][j] = posicaoEmTipos[i - 1][j];
+                    posicaoEmTipos[i - 1][j] = controle;
 
+                    // Testando a troca pra direita
+                    controle = posicaoEmTipos[i][j];
+                    posicaoEmTipos[i][j] = posicaoEmTipos[i][j + 1];
+                    posicaoEmTipos[i][j + 1] = controle;
+                    if (isTabuleiroPossivel() == false) {
+                        necessario = false;
+                    }
+                    controle = posicaoEmTipos[i][j];
+                    posicaoEmTipos[i][j] = posicaoEmTipos[i][j + 1];
+                    posicaoEmTipos[i][j + 1] = controle;
 
-        return false;
+                    // Testando a troca pra esquerda
+                    controle = posicaoEmTipos[i][j];
+                    posicaoEmTipos[i][j] = posicaoEmTipos[i][j - 1];
+                    posicaoEmTipos[i][j - 1] = controle;
+                    if (isTabuleiroPossivel() == false) {
+                        necessario = false;
+                    }
+                    controle = posicaoEmTipos[i][j];
+                    posicaoEmTipos[i][j] = posicaoEmTipos[i][j - 1];
+                    posicaoEmTipos[i][j - 1] = controle;
+
+                } if (i > 0 && i < posicaoEmTipos.length - 1) {
+                    
+                    // Testando a troca pra baixo
+                    controle = posicaoEmTipos[i][j];
+                    posicaoEmTipos[i][j] = posicaoEmTipos[i + 1][j];
+                    posicaoEmTipos[i + 1][j] = controle;
+                    if (isTabuleiroPossivel() == false) {
+                        necessario = false;
+                    }
+                    controle = posicaoEmTipos[i][j];
+                    posicaoEmTipos[i][j] = posicaoEmTipos[i + 1][j];
+                    posicaoEmTipos[i + 1][j] = controle;
+
+                    // Testando a troca pra cima
+                    controle = posicaoEmTipos[i][j];
+                    posicaoEmTipos[i][j] = posicaoEmTipos[i - 1][j];
+                    posicaoEmTipos[i - 1][j] = controle;
+                    if (isTabuleiroPossivel() == false) {
+                        necessario = false;
+                    }
+                    controle = posicaoEmTipos[i][j];
+                    posicaoEmTipos[i][j] = posicaoEmTipos[i - 1][j];
+                    posicaoEmTipos[i - 1][j] = controle;
+                    
+                } if (j > 0 && j < posicaoEmTipos.length - 1) {
+
+                    // Testando a troca pra direita
+                    controle = posicaoEmTipos[i][j];
+                    posicaoEmTipos[i][j] = posicaoEmTipos[i][j + 1];
+                    posicaoEmTipos[i][j + 1] = controle;
+                    if (isTabuleiroPossivel() == false) {
+                        necessario = false;
+                    }
+                    controle = posicaoEmTipos[i][j];
+                    posicaoEmTipos[i][j] = posicaoEmTipos[i][j + 1];
+                    posicaoEmTipos[i][j + 1] = controle;
+
+                    // Testando a troca pra esquerda
+                    controle = posicaoEmTipos[i][j];
+                    posicaoEmTipos[i][j] = posicaoEmTipos[i][j - 1];
+                    posicaoEmTipos[i][j - 1] = controle;
+                    if (isTabuleiroPossivel() == false) {
+                        necessario = false;
+                    }
+                    controle = posicaoEmTipos[i][j];
+                    posicaoEmTipos[i][j] = posicaoEmTipos[i][j - 1];
+                    posicaoEmTipos[i][j - 1] = controle;
+                    
+                }
+            }
+        }
+        if (necessario) {
+            gerarTabuleiroAleatorio();
+        }
     }
 }

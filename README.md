@@ -93,3 +93,12 @@
 <p style="text-indent: 1em; font-size: 1.3em;">
    No encerramento do programa, todas as partidas da lista (<code>ArrayList<></code>) local são salvas dentro de um banco de dados através de diversas colunas, com o objetivo de guardar toda a situação da partida, do tabuleiro e dos jogadores e, graças a essa mecânica do banco de dados - implementada na classe <code>Salvamento</code> - é possível, em futuras execuções do programa, carregar partidas passadas, mesmo que já finalizadas, através da classe <code>Carregamento</code>.
 </p>
+<p style="text-indent: 1em; font-size: 1.3em;">
+   Para o correto funcionamento do salvamento e do carregamento das partidas, é necessário ter, na sua máquina, o sistema de gerenciamento de banco de dados MySQL, além de um banco de dados de nome "puzzle_quest" com uma tabela de nome "partidas_salvas" dentro dele, com todas as seguintes colunas/atributos: id (Primary key & auto_increment), nome, timestamp (opcional)(current_timestamp), situacaoTabuleiro, vidaAtualJogador1, vidaAtualJogador2, vidaMaximaJogador1, vidaMaximaJogador2, ouroAtualJogador1, ouroAtualJogador2, xpAtualJogador1, xpAtualJogador2, multiplicadorJogador1 e multiplicadorJogador2. OBS.: A conexão que conterá o banco de dados deve ser local.
+</p>
+<p style="text-indent: 1em; font-size: 1.3em;">
+   Também é necessário modificar as constantes "PASSWORD", presentes nas linhas 20 e 24 das classes <code>Salvamento</code> e <code>Carregamento</code>, respectivamente, para a senha de acesso da sua conexão local do MySQL, a não ser que a senha seja <i>12345678</i>.
+</p>
+<p style="text-indent: 1em; font-size: 1.3em;">
+   <a href="assets/criacao-banco-de-dados.sql"><strong>Clique aqui</strong></a> para abrir o script (lista de comandos) SQL da criação do banco de dados, da tabela e das colunas necessárias.
+</p>
