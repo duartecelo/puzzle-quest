@@ -5,6 +5,12 @@ import java.util.Scanner;
 
 public class Menu {
     static String erro = "";
+    
+    /**
+     * Exibe o menu principal do jogo e processa a seleção do usuário.
+     * As opções incluem iniciar uma nova partida, continuar uma partida, abrir configurações e fechar o jogo.
+     * Em caso de erro na entrada, uma mensagem de erro é exibida.
+     */
     public static void mostrarMenu() {
         limparConsole();
         System.out.print("\n" +
@@ -27,6 +33,10 @@ public class Menu {
         registrarEscolha();
     }
 
+    /**
+     * Lê a escolha do usuário no menu e chama o método apropriado para executar a opção selecionada.
+     * Em caso de erro na entrada, uma mensagem de erro é exibida e o menu é mostrado novamente.
+     */
     public static void registrarEscolha() {
         try {
             Scanner scanner = new Scanner(System.in);
@@ -40,7 +50,18 @@ public class Menu {
             mostrarMenu();
         }
     }
-
+    
+    /**
+     * Executa a opção selecionada pelo usuário no menu.
+     * 
+     * @param opcao a opção escolhida pelo usuário.
+     * As opções válidas são:
+     * 1 - Iniciar nova partida.
+     * 2 - Continuar uma partida.
+     * 3 - Abrir configurações.
+     * 4 - Fechar o jogo.
+     * Se a opção for inválida, uma mensagem de erro é exibida e o menu é mostrado novamente.
+     */
     public static void executarOpcao(int opcao) {
         switch (opcao) {
             case 1:
@@ -63,6 +84,9 @@ public class Menu {
         }
     }
     
+    /**
+     * Limpa o console, simulando a função de "limpar tela" para melhorar a legibilidade.
+     */
     public final static void limparConsole() {
         System.out.print("\033[H\033[2J");
         System.out.flush();

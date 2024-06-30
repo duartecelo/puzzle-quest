@@ -6,10 +6,18 @@ import java.util.Scanner;
 public class MenuPartida {
     static String erro = "";
 
+    /**
+     * Inicia uma nova partida exibindo o menu de nova partida.
+     */
     public static void iniciarNovaPartida() {
         mostrarMenuNovaPartida();
     }
     
+    /**
+     * Exibe o menu de nova partida e processa a seleção do usuário.
+     * As opções incluem Player Vs Player (PvP) e voltar ao menu principal.
+     * Em caso de erro na entrada, uma mensagem de erro é exibida.
+     */
     public static void mostrarMenuNovaPartida() {
         try {
             limparConsole();
@@ -47,7 +55,10 @@ public class MenuPartida {
             mostrarMenuNovaPartida();
         }
     }
-
+    
+    /**
+     * Limpa o console, simulando a função de "limpar tela" para melhorar a legibilidade.
+     */
     public final static void limparConsole() {
         System.out.print("\033[H\033[2J");
         System.out.flush();
