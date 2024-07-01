@@ -1,6 +1,9 @@
 package main.game;
 import java.util.Random;
 
+/**
+ * Classe que representa o tabuleiro do jogo.
+ */
 public class Tabuleiro {
     public Tipo[][] posicaoEmTipos = new Tipo[8][8];
     String[][] posicaoEmString = new String[8][8];
@@ -14,6 +17,9 @@ public class Tabuleiro {
     int experienciasApagadas = 0;
     final String ANSI_RESET = "\u001B[0m";
 
+    /**
+     * Gera um tabuleiro aleatório, garantindo que ele seja possível de jogar.
+     */
     public void gerarTabuleiroAleatorio() {
         for (int i = 0; i < posicaoEmTipos.length; i++) {
             for (int j = 0; j < posicaoEmTipos.length; j++) {
@@ -30,7 +36,10 @@ public class Tabuleiro {
             }
         }
     }
-
+    /**
+     * Gera uma esfera aleatória de um tipo específico.
+     * @return Um tipo de esfera aleatório.
+     */
     public Tipo gerarEsferaAleatoria() {
         Random random = new Random();
         int aleatorio = random.nextInt(1, 8);
@@ -54,6 +63,12 @@ public class Tabuleiro {
         }
     }
 
+    /**
+     * Verifica se uma sequência de esferas foi formada em uma posição específica.
+     * @param i Índice da linha.
+     * @param j Índice da coluna.
+     * @return true se uma sequência foi formada, false caso contrário.
+     */
     public boolean isFormada(int i, int j) {
         if (posicaoEmTipos[i][j] != null) {
             if (j >= 2 && posicaoEmTipos[i][j] == posicaoEmTipos[i][j - 1] && posicaoEmTipos[i][j] == posicaoEmTipos[i][j - 2]) {
@@ -78,7 +93,10 @@ public class Tabuleiro {
         }
         return false;
     }
-
+    
+    /**
+     * Mostra o tabuleiro atual no console.
+     */
     public void mostrarTabuleiro() {
         reiniciarSeNecessario();
         for (int i = 0; i < posicaoEmString.length; i++) {
@@ -126,6 +144,10 @@ public class Tabuleiro {
         System.out.println();
     }
 
+    /**
+     * Verifica se o tabuleiro gerado é possível de jogar (não possui combinações formadas).
+     * @return true se o tabuleiro é possível, false caso contrário.
+     */
     public boolean isTabuleiroPossivel() {
         for (int i = 0; i < posicaoEmString.length; i++) {
             for (int j = 0; j < posicaoEmString.length; j++) {
@@ -138,22 +160,37 @@ public class Tabuleiro {
         return true;
     }
 
+    /**
+     * Move a posição selecionada para cima.
+     */
     public void movimentarParaCima() {
         if (posicaoSelecionada[0] > 0) posicaoSelecionada[0]--;
     }
-
+    
+    /**
+     * Move a posição selecionada para a esquerda.
+     */
     public void movimentarParaEsquerda() {
         if (posicaoSelecionada[1] > 0) posicaoSelecionada[1]--;
     }
-
+    
+    /**
+     * Move a posição selecionada para baixo.
+     */
     public void movimentarParaBaixo() {
         if (posicaoSelecionada[0] < 7) posicaoSelecionada[0]++;
     }
-
+    
+    /**
+     * Move a posição selecionada para a direita.
+     */
     public void movimentarParaDireita() {
         if (posicaoSelecionada[1] < 7) posicaoSelecionada[1]++;
     }
 
+    /**
+     * Troca a posição selecionada com a posição acima.
+     */
     public void trocarCima() {
         try {
             Tipo trocador;
@@ -171,7 +208,10 @@ public class Tabuleiro {
             
         }
     }
-
+    
+    /**
+     * Troca a posição selecionada com a posição à esquerda.
+     */
     public void trocarEsquerda() {
         try {
             Tipo trocador;
@@ -189,7 +229,11 @@ public class Tabuleiro {
             
         }
     }
-
+    
+    /**
+     * Método para trocar um elemento para baixo no tabuleiro, se possível.
+     * Se a troca for válida, verifica se forma combinações; caso contrário, desfaz a troca.
+     */
     public void trocarBaixo() {
         try {
             Tipo trocador;
@@ -208,6 +252,10 @@ public class Tabuleiro {
         }
     }
 
+    /**
+     * Método para trocar um elemento para a direita no tabuleiro, se possível.
+     * Se a troca for válida, verifica se forma combinações; caso contrário, desfaz a troca.
+     */
     public void trocarDireita() {
         try {
             Tipo trocador;
@@ -225,7 +273,12 @@ public class Tabuleiro {
             
         }
     }
-
+    
+    /**
+     * Método para contar e apagar combinações de caveiras no tabuleiro.
+     * As caveiras formam combinações se houver 3 ou mais em linha (horizontal ou vertical).
+     * Atualiza o número de caveiras apagadas no jogo.
+     */
     public void contarEApagarCaveiras() {
         boolean[][] apagadas = new boolean[8][8];
         int quantidadeApagadas = 0;
@@ -255,6 +308,11 @@ public class Tabuleiro {
         caveirasApagadas = quantidadeApagadas;
     }
 
+    /**
+     * Método para contar e apagar combinações de fogos no tabuleiro.
+     * Os fogos formam combinações se houver 3 ou mais em linha (horizontal ou vertical).
+     * Atualiza o número de fogos apagados no jogo.
+     */
     public void contarEApagarFogos() {
         boolean[][] apagadas = new boolean[8][8];
         int quantidadeApagadas = 0;
@@ -285,6 +343,11 @@ public class Tabuleiro {
         fogosApagados = quantidadeApagadas;
     }
 
+    /**
+     * Método para contar e apagar combinações de gelos no tabuleiro.
+     * Os gelos formam combinações se houver 3 ou mais em linha (horizontal ou vertical).
+     * Atualiza o número de gelos apagados no jogo.
+     */
     public void contarEApagarGelos() {
         boolean[][] apagadas = new boolean[8][8];
         int quantidadeApagadas = 0;
@@ -314,7 +377,12 @@ public class Tabuleiro {
         }
         gelosApagados = quantidadeApagadas;
     }
-
+    
+    /**
+     * Método para contar e apagar combinações de raios no tabuleiro.
+     * Os raios formam combinações se houver 3 ou mais em linha (horizontal ou vertical).
+     * Atualiza o número de raios apagados no jogo.
+     */
     public void contarEApagarRaios() {
         boolean[][] apagadas = new boolean[8][8];
         int quantidadeApagadas = 0;
@@ -344,7 +412,12 @@ public class Tabuleiro {
         }
         raiosApagados = quantidadeApagadas;
     }
-
+    
+    /**
+     * Método para contar e apagar combinações de naturezas no tabuleiro.
+     * As naturezas formam combinações se houver 3 ou mais em linha (horizontal ou vertical).
+     * Atualiza o número de naturezas apagadas no jogo.
+     */
     public void contarEApagarNaturezas() {
         boolean[][] apagadas = new boolean[8][8];
         int quantidadeApagadas = 0;
@@ -375,6 +448,11 @@ public class Tabuleiro {
         naturezasApagadas = quantidadeApagadas;
     }
 
+    /**
+     * Método para contar e apagar combinações de ouros no tabuleiro.
+     * Os ouros formam combinações se houver 3 ou mais em linha (horizontal ou vertical).
+     * Atualiza o número de ouros apagados no jogo.
+     */
     public void contarEApagarOuros() {
         boolean[][] apagadas = new boolean[8][8];
         int quantidadeApagadas = 0;
@@ -404,7 +482,12 @@ public class Tabuleiro {
         }
         ourosApagados = quantidadeApagadas;
     }
-
+    
+    /**
+     * Método para contar e apagar combinações de experiências no tabuleiro.
+     * As experiências formam combinações se houver 3 ou mais em linha (horizontal ou vertical).
+     * Atualiza o número de experiências apagadas no jogo.
+     */
     public void contarEApagarExperiencias() {
         boolean[][] apagadas = new boolean[8][8];
         int quantidadeApagadas = 0;
@@ -435,6 +518,10 @@ public class Tabuleiro {
         experienciasApagadas = quantidadeApagadas;
     }
     
+    /**
+     * Método para contar e apagar todas as combinações possíveis no tabuleiro.
+     * Chama métodos individuais para cada tipo de elemento para contar e apagar as combinações.
+     */
     public void contarEApagarTudo() {
         contarEApagarGelos();
         contarEApagarNaturezas();
@@ -444,7 +531,11 @@ public class Tabuleiro {
         contarEApagarOuros();
         contarEApagarRaios();
     }
-
+    
+    /**
+     * Método para descer as esferas no tabuleiro, movendo cada esfera para a posição vazia imediatamente abaixo dela.
+     * Esferas que estiverem na base do tabuleiro não podem descer mais.
+     */
     public void descerEsferas() {
         while (temEsferasADescer()) {
             for (int i = 0; i < posicaoEmTipos.length - 1; i++) {
@@ -457,7 +548,12 @@ public class Tabuleiro {
             }
         }
     }
-
+    
+    /**
+     * Verifica se há esferas que podem ser descidas no tabuleiro.
+     *
+     * @return true se há pelo menos uma esfera que pode ser movida para baixo, false caso contrário.
+     */
     public boolean temEsferasADescer() {
         for (int i = 0; i < posicaoEmTipos.length - 1; i++) {
             for (int j = 0; j < posicaoEmTipos.length; j++) {
@@ -468,7 +564,11 @@ public class Tabuleiro {
         }
         return false;
     }
-
+    
+    /**
+     * Método para gerar novas esferas nas posições vazias do tabuleiro.
+     * Esferas são geradas aleatoriamente.
+     */
     public void gerarNovasEsferas() {
         for (int i = 0; i < posicaoEmTipos.length; i++) {
             for (int j = 0; j < posicaoEmTipos.length; j++) {
@@ -478,7 +578,11 @@ public class Tabuleiro {
             }
         }
     }
-
+    
+    /**
+     * Método para reiniciar o tabuleiro se não houver mais movimentos válidos.
+     * Testa todas as trocas possíveis e, se nenhuma for válida, gera um novo tabuleiro aleatório.
+     */
     public void reiniciarSeNecessario() {
         Tipo controle;
         boolean necessario = true;

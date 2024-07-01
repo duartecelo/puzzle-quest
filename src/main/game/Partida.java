@@ -1,3 +1,4 @@
+
 package main.game;
 
 import java.util.Scanner;
@@ -6,6 +7,10 @@ import java.util.ArrayList;
 
 @SuppressWarnings("resource")
 public class Partida {
+    
+    /*
+    * Lista que armazena todas as partidas que foram criadas.
+    */
     public static List<Partida> listaDePartidas = new ArrayList<>();
 
     public Tabuleiro tabuleiro;
@@ -19,16 +24,27 @@ public class Partida {
     public boolean combo = false;
     public boolean precisaSalvar = true;
 
+    /*
+    * Construtor da classe Partida que adiciona a partida à lista de partidas.
+    */
     public Partida() {
         listaDePartidas.add(this);
     }
-
+    
+    /*
+    * Método que retorna a representação em string da partida.
+    * @return String contendo o nome dos jogadores que estão competindo.
+    */
     @Override
     public String toString() {
         String partida = jogador1.getNome() + "_vs_" + jogador2.getNome();
         return partida;
     }
-
+    
+    /*
+    * Método responsável por iniciar uma partida PvP.
+    * Cria os jogadores, tabuleiro, e inicia o loop de rodadas até que um jogador fique sem vida.
+    */
     public void iniciarPartidaPvP() {
         Scanner scanner = new Scanner(System.in);
         tabuleiro = new Tabuleiro();
@@ -80,13 +96,21 @@ public class Partida {
         finalDeJogo();
     }
 
+    /**
+     * Método responsável por imprimir informações da rodada atual, incluindo o tabuleiro e o jogador atual.
+    */
     public void imprimirRodada() {
         tabuleiro.mostrarTabuleiro();
         System.out.println(jogador1);
         System.out.print(jogador2);
         System.out.printf("=== Vez de %s ===\n\n", jogadorAtual.getNome().toUpperCase());
     }
-
+    
+    /**
+    * Solicita ao jogador uma escolha de movimento ou ação através do console.
+    *
+    * @param scanner Scanner utilizado para capturar a entrada do jogador
+    */
     public void solicitarEscolhaDaJogada(Scanner scanner) {
         System.out.println("* Digite `W`, `A`, `S` ou `D` + Enter para\n  se movimentar dentro do tabuleiro.");
         System.out.println("* Clique Enter para confirmar a posição.");
@@ -121,7 +145,11 @@ public class Partida {
                 break;
         }
     }
-
+    
+    /**
+    * Imprime as informações finais do jogo, incluindo o vencedor e estatísticas da partida.
+    * Aguarda a entrada do jogador para continuar.
+    */
     public void finalDeJogo() {
         Scanner scanner = new Scanner(System.in);
         limparConsole();
@@ -136,7 +164,11 @@ public class Partida {
         Menu.mostrarMenu();
         
     }
-
+    
+    /**
+    * Solicita ao jogador uma escolha de direção para movimento dentro do tabuleiro.
+    * Utiliza um Scanner para capturar a entrada do jogador.
+    */
     public void escolherDirecao() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -");
@@ -163,11 +195,20 @@ public class Partida {
                 break;
         }
     }
+   
+    /**
+    * Limpa o console, removendo todos os dados presentes.
+    * Utiliza códigos ANSI para realizar a limpeza.
+     */
     public final static void limparConsole() {
         System.out.print("\033[H\033[2J");
         System.out.flush();
     }
-
+    
+    /**
+    * Aplica os efeitos das ações realizadas durante a rodada atual.
+    * Realiza diferentes ações baseadas nas condições do tabuleiro.
+    */
     public void realizarEfeitos() {
         if (tabuleiro.gelosApagados >= 3) {
             for (int i = 0; i < tabuleiro.posicaoEmTipos.length; i++) {
@@ -239,6 +280,11 @@ public class Partida {
         tabuleiro.experienciasApagadas = 0;
     }
     
+    /**
+    * Verifica se há algum combo no tabuleiro, onde um combo é definido como 4 ou mais elementos iguais apagados.
+    *
+    * @return true se houver um combo, false caso contrário
+    */
     public boolean temCombo() {
         if (tabuleiro.experienciasApagadas >= 4) return true;
         if (tabuleiro.caveirasApagadas >= 4) return true;
@@ -249,7 +295,10 @@ public class Partida {
         if (tabuleiro.raiosApagados >= 4) return true;
         return false;
     }
-
+    
+    /**
+    * Reseta todos os contadores de elementos apagados do tabuleiro para zero.
+    */
     public void resetarApagados() {
         tabuleiro.experienciasApagadas = 0;
         tabuleiro.caveirasApagadas = 0;
@@ -259,7 +308,12 @@ public class Partida {
         tabuleiro.ourosApagados = 0;
         tabuleiro.raiosApagados = 0;
     }
-
+    
+    /**
+    * Verifica se o jogador realizou alguma ação durante sua rodada atual.
+    *
+    * @return true se o jogador jogou (realizou alguma ação), false caso contrário
+    */
     public boolean oJogadorJogou() {
         if (tabuleiro.experienciasApagadas >= 1) return true;
         if (tabuleiro.caveirasApagadas >= 1) return true;
@@ -270,7 +324,12 @@ public class Partida {
         if (tabuleiro.raiosApagados >= 1) return true;
         return false;
     }
-
+    
+    /**
+    * Retorna uma representação ordenada do tabuleiro, onde cada elemento é representado por uma letra correspondente ao tipo.
+    *
+    *@return String representando o tabuleiro ordenado por tipos
+    */
     public String tabuleiroOrdenado() {
         String conjunto = "";
         for (int i = 0; i < tabuleiro.posicaoEmTipos.length; i++) {
@@ -304,7 +363,9 @@ public class Partida {
         }
         return conjunto;
     }
-
+    /**
+    * Exclui o salvamento anterior do jogo, deletando-o do banco de dados.
+    */
     public void excluirSalvamentoPassado() {
         main.data.Carregamento.deletarAntigoSalvamento();
     }
